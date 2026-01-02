@@ -1,20 +1,58 @@
 <!DOCTYPE html>
-<html>
+<html lang="pt-BR">
 <head>
-<title>Restaurante Vegano</title>
-<link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <title>Mandir</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-<nav>
-<a href="index.html">Home</a>
-<a href="historia.html">Nossa História</a>
-<a href="carrinho.html">Carrinho</a>
-<a href="login.html">Login</a>
+
+<nav class="navbar">
+  <div class="navbar-container">
+
+    <!-- Esquerda -->
+    <div class="logo">
+      🥕 Mandir
+    </div>
+
+    <!-- Centro -->
+    <ul class="menu">
+      <li><a href="index.html">Início</a></li>
+      <li><a href="cardapio.html">Cardápio</a></li>
+      <li><a href="historia.html">História</a></li>
+      <li><a href="planos.html">Nossos Planos</a></li>
+      <li><a href="carrinho.html">Carrinho</a></li>
+      <li><a href="admin.html">Admin</a></li>
+    </ul>
+
+    <!-- Direita -->
+    <div class="login-link">
+      <a href="login.html">Login</a>
+    </div>
+
+  </div>
 </nav>
 
-<h1>Cardápio</h1>
-<ul id="list"></ul>
+<div class="container">
+  <h1 style="margin-bottom:30px;color:#2f6f4e;">Bem-vindo ao Mandir 🌱</h1>
 
-<script src="script.js"></script>
+  <div class="cards">
+    <div class="card">
+      <h3>🌿 100% Vegano</h3>
+      <p>Pratos saudáveis e sustentáveis.</p>
+    </div>
+
+    <div class="card">
+      <h3>🥗 Natural</h3>
+      <p>Ingredientes frescos e selecionados.</p>
+    </div>
+
+    <div class="card">
+      <h3>🌎 Consciente</h3>
+      <p>Respeito ao planeta em cada prato.</p>
+    </div>
+  </div>
+</div>
+
 </body>
 </html>

@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<title>Admin - Mandir</title>
+<link rel="stylesheet" href="style.css">
+<style>
+body {
+  font-family: Arial;
+  background: linear-gradient(135deg, #fff7ed, #ffe8cc);
+  padding: 30px;
+}
+form {
+  max-width: 600px;
+  background: #fff;
+  padding: 20px;
+  border-radius: 12px;
+}
+input, textarea {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+button {
+  padding: 12px;
+  background: #2f6f4e;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  margin-top: 5px;
+}
+#msg { margin-top: 10px; font-weight: bold; }
+.prato-list { margin-top: 30px; }
+.prato-item { background:#fff; padding:10px; border-radius:8px; margin-bottom:10px; display:flex; align-items:center; justify-content:space-between; }
+.prato-info { flex:1; margin-left:10px; }
+.prato-buttons button { margin-left:5px; background:#2f6f4e; }
+</style>
+</head>
+<body>
+
+<nav class="navbar">
+  <div class="navbar-container">
+    <div class="logo">🥕 Mandir</div>
+    <ul class="menu">
+      <li><a href="index.html">Início</a></li>
+      <li><a href="cardapio.html">Cardápio</a></li>
+      <li><a href="historia.html">História</a></li>
+      <li><a href="planos.html">Nossos Planos</a></li>
+      <li><a href="carrinho.html">Carrinho</a></li>
+    </ul>
+    <div class="login-link">
+      <a href="login.html">Login</a>
+    </div>
+  </div>
+</nav>
+
+<h1>Cadastro de Pratos</h1>
+
+<form id="dishForm">
+  <input id="name" placeholder="Nome do prato" required>
+  <textarea id="description" placeholder="Descrição"></textarea>
+  <textarea id="ingredients" placeholder="Ingredientes"></textarea>
+  <textarea id="allergens" placeholder="Alergênicos"></textarea>
+  <input id="image" type="file" accept="image/*">
+  <input id="price" placeholder="Preço" type="number" step="0.01" required>
+  <button type="submit">Cadastrar</button>
+</form>
+
+<p id="msg"></p>
+
+<div class="prato-list" id="pratoList"></div>
+
+<script>
+const form = document.getElementById("dishForm");
+const msg = document.getElementById("msg");
+const pratoList = document.getElementById("pratoList");
+
+let editIndex = null; // indice do prato sendo editado
+
+function renderPratos() {
+  pratoList.innerHTML = "";
+  const dishes = JSON.parse(localStorage.getItem("dishes")) || [];
+  dishes.forEach((prato, i) => {
+    const div = document.createElement("div");
+    div.className = "prato-item";
+    div.innerHTML = `
+      <img src="${prato.image || 'https://via.placeholder.com/60'}" width="60" height="60" style="border-radius:8px;">
+      <div class="prato-info">
+        <strong>${prato.name}</strong> - R$ ${Number(prato.price).toFixed(2)}
+      </div>
+      <div class="prato-buttons">
+        <button onclick="editarPrato(${i})">✏️ Editar</button>
+        <button onclick="removerPrato(${i})">🗑️ Remover</button>
+      </div>
+    `;
+    pratoList.appendChild(div);
+  });
+}
+
+function salvarPrato(prato) {
+  let dishes = JSON.parse(localStorage.getItem("dishes")) || [];
+  if(editIndex !== null){
+    dishes[editIndex] = prato;
+    editIndex = null;
+  } else {
+    dishes.push(prato);
+  }
+  localStorage.setItem("dishes", JSON.stringify(dishes));
+  msg.innerText = "✅ Prato salvo com sucesso!";
+  form.reset();
+  renderPratos();
+}
+
+form.addEventListener("submit", function(e){
+  e.preventDefault();
+
+  const name = document.getElementById("name").value;
+  const description = document.getElementById("description").value;
+  const ingredients = document.getElementById("ingredients").value;
+  const allergens = document.getElementById("allergens").value;
+  const price = parseFloat(document.getElementById("price").value).toFixed(2);
+  const fileInput = document.getElementById("image");
+  const file = fileInput.files[0];
+
+  if(!name || !price){
+    msg.innerText = "❌ Preencha pelo menos nome e preço";
+    return;
+  }
+
+  if(file){
+    const reader = new FileReader();
+    reader.onload = function(event){
+      const imageBase64 = event.target.result;
+      salvarPrato({name, description, ingredients, allergens, price, image: imageBase64});
+    }
+    reader.readAsDataURL(file);
+  } else {
+    // manter imagem antiga ao editar
+    let dishes = JSON.parse(localStorage.getItem("dishes")) || [];
+    const oldImage = (editIndex !== null && dishes[editIndex].image) ? dishes[editIndex].image : "";
+    salvarPrato({name, description, ingredients, allergens, price, image: oldImage});
+  }
+});
+
+function removerPrato(index){
+  let dishes = JSON.parse(localStorage.getItem("dishes")) || [];
+  if(confirm("Tem certeza que deseja remover este prato?")){
+    dishes.splice(index, 1);
+    localStorage.setItem("dishes", JSON.stringify(dishes));
+    renderPratos();
+    msg.innerText = "✅ Prato removido!";
+  }
+}
+
+function editarPrato(index){
+  const dishes = JSON.parse(localStorage.getItem("dishes")) || [];
+  const prato = dishes[index];
+  editIndex = index;
+  document.getElementById("name").value = prato.name;
+  document.getElementById("description").value = prato.description;
+  document.getElementById("ingredients").value = prato.ingredients;
+  document.getElementById("allergens").value = prato.allergens;
+  document.getElementById("price").value = prato.price;
+}
+
+renderPratos();
+</script>
+
+</body>
+</html>

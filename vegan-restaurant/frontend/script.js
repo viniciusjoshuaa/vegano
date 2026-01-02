@@ -1,4 +1,4 @@
-fetch('http://localhost:3000/products')
+fetch("http://localhost:3000/products")
 .then(r=>r.json())
 .then(d=>{
 const ul=document.getElementById('list');

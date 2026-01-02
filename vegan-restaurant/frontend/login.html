@@ -1,16 +1,68 @@
-<h1>Login</h1>
-<input id="email" placeholder="Email">
-<input id="password" type="password" placeholder="Senha">
-<button onclick="login()">Entrar</button>
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Login - Mandir</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<nav class="navbar">
+  <div class="navbar-container">
+
+    <!-- Esquerda -->
+    <div class="logo">
+      🥕 Mandir
+    </div>
+
+    <!-- Centro -->
+    <ul class="menu">
+      <li><a href="index.html">Início</a></li>
+      <li><a href="cardapio.html">Cardápio</a></li>
+      <li><a href="historia.html">História</a></li>
+      <li><a href="planos.html">Nossos Planos</a></li>
+      <li><a href="carrinho.html">Carrinho</a></li>
+    </ul>
+
+    <!-- Direita -->
+    <div class="login-link">
+      <a href="login.html">Login</a>
+    </div>
+
+  </div>
+</nav>
+
+<div class="container">
+  <div class="login-box">
+    <h1>Login</h1>
+
+    <input id="email" placeholder="Email">
+    <input id="password" type="password" placeholder="Senha">
+
+    <button onclick="login()">Entrar</button>
+  </div>
+</div>
+
 <script>
-function login(){
-fetch('http://localhost:3000/login',{
-method:'POST',
-headers:{'Content-Type':'application/json'},
-body:JSON.stringify({
-email:email.value,
-password:password.value
-})
-}).then(r=>r.json()).then(d=>alert('Login OK'));
+function login() {
+  fetch('http://localhost:3000/login', {
+    method: 'POST',
+    headers: {'Content-Type':'application/json'},
+    body: JSON.stringify({
+      email: email.value,
+      password: password.value
+    })
+  })
+  .then(r => r.json())
+  .then(d => {
+    if(d.token){
+      alert("Login realizado!");
+    } else {
+      alert("Erro no login");
+    }
+  });
 }
 </script>
+
+</body>
+</html>
