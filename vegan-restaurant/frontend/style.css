@@ -50,11 +50,40 @@ body {
   text-decoration: underline;
 }
 
-/* Login */
-.login-link a {
-  color: white;
-  text-decoration: none;
+/* ===== BOTÕES LOGIN E SIGNUP ===== */
+.navbar-buttons {
+  display: flex;
+  gap: 10px;
+}
+
+.navbar-buttons button {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
   font-weight: bold;
+  font-size: 0.95rem;
+  transition: background 0.3s ease;
+}
+
+/* Botão login */
+.navbar-buttons .btn-login {
+  background-color: #ffc080;  /* laranja claro */
+  color: #2f6f4e;             /* verde escuro */
+}
+
+.navbar-buttons .btn-login:hover {
+  background-color: #ffb366;
+}
+
+/* Botão signup */
+.navbar-buttons .btn-signup {
+  background-color: #ffd699;  /* laranja suave */
+  color: #2f6f4e;             
+}
+
+.navbar-buttons .btn-signup:hover {
+  background-color: #ffcc80;
 }
 
 /* ===== CONTAINER ===== */
@@ -87,8 +116,8 @@ body {
   color: #2f6f4e;
 }
 
-/* ===== LOGIN ===== */
-.login-box {
+/* ===== LOGIN / SIGNUP ===== */
+.login-box, .form-container {
   background: white;
   padding: 30px;
   border-radius: 12px;
@@ -97,19 +126,21 @@ body {
   max-width: 350px;
 }
 
-.login-box h1 {
+.login-box h1, .form-container h2 {
   text-align: center;
   margin-bottom: 20px;
   color: #2f6f4e;
 }
 
-.login-box input {
+.login-box input, .form-container input {
   width: 100%;
   padding: 10px;
   margin-bottom: 15px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
 }
 
-.login-box button {
+.login-box button, .form-container button {
   width: 100%;
   padding: 10px;
   background: #2f6f4e;
@@ -118,9 +149,10 @@ body {
   font-size: 1rem;
   cursor: pointer;
   border-radius: 6px;
+  font-weight: bold;
 }
 
-.login-box button:hover {
+.login-box button:hover, .form-container button:hover {
   background: #24583f;
 }
 
@@ -136,6 +168,7 @@ body {
     align-items: center;
   }
 }
+
 /* ===== PLANOS ===== */
 .planos-container {
   width: 100%;
@@ -186,6 +219,7 @@ body {
 .plano-content p {
   font-size: 0.95rem;
 }
+
 /* ===== CARDÁPIO ===== */
 .cardapio-container {
   width: 100%;
@@ -275,4 +309,19 @@ body {
   background-position: center;
   border-radius: 8px;
   margin-bottom: 15px;
+}
+/* Botão carrinho */
+.navbar-buttons .btn-cart {
+  background: #ffc080; /* mesma cor suave do login/signup */
+  color: #2f6f4e;
+  padding: 8px 12px;
+  font-size: 1.1rem;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.navbar-buttons .btn-cart:hover {
+  background-color: #ffb366;
 }

@@ -15,16 +15,26 @@
       <li><a href="cardapio.html">Cardápio</a></li>
       <li><a href="historia.html">História</a></li>
       <li><a href="planos.html">Nossos Planos</a></li>
-      <li><a href="carrinho.html">Carrinho</a></li>
     </ul>
-    <div class="login-link">
-      <a href="login.html">Login</a>
+   <!-- Direita -->
+    <div class="navbar-buttons">
+  <button class="btn-cart" onclick="window.location.href='carrinho.html'">
+    🛒
+  </button>
+      <div class="navbar-buttons">
+        <button class="btn-login" onclick="window.location.href='login.html'">Login</button>
+        <button class="btn-signup" onclick="window.location.href='signup.html'">Signup</button>
+      </div>
     </div>
-  </div>
-</nav>
+  </nav>
+
 
 <div class="container">
   <h1 class="titulo">Nosso Cardápio 🌱</h1>
+
+  <!-- BOTÃO CRIAR PRATO PARA ADMIN -->
+  <button id="btnCreate" style="display:none; width:16px; height:16px; margin-bottom:10px;">➕</button>
+
   <div class="cardapio-container" id="cardapio"></div>
 </div>
 
@@ -37,7 +47,17 @@
 
 <script>
 const container = document.getElementById("cardapio");
+const btnCreate = document.getElementById("btnCreate");
+
+// Simulação: pegar role do usuário logado
+const userRole = localStorage.getItem("role"); // "admin" ou "cliente"
 const dishes = JSON.parse(localStorage.getItem("dishes")) || [];
+
+// Mostrar botão criar prato se for admin
+if(userRole === "admin"){
+  btnCreate.style.display = "inline-block";
+  btnCreate.onclick = () => alert("Abrir modal para criar prato");
+}
 
 function renderCardapio(){
   container.innerHTML = "";
@@ -52,6 +72,31 @@ function renderCardapio(){
         <strong>R$ ${Number(prato.price).toFixed(2)}</strong>
       </div>
     `;
+
+    // Ícones de editar e deletar se admin
+    if(userRole === "admin"){
+      const edit = document.createElement("span");
+      edit.textContent = "✏️";
+      edit.style.cursor = "pointer";
+      edit.style.marginLeft = "5px";
+      edit.onclick = (e) => {
+        e.stopPropagation();
+        alert("Editar prato: " + prato.name);
+      };
+
+      const del = document.createElement("span");
+      del.textContent = "🗑️";
+      del.style.cursor = "pointer";
+      del.style.marginLeft = "5px";
+      del.onclick = (e) => {
+        e.stopPropagation();
+        alert("Excluir prato: " + prato.name);
+      };
+
+      card.querySelector(".prato-content").appendChild(edit);
+      card.querySelector(".prato-content").appendChild(del);
+    }
+
     card.onclick = () => abrirModal(prato);
     container.appendChild(card);
   });

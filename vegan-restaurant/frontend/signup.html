@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cadastro | Vegan Shop</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    /* ===== CENTRALIZAÇÃO FORMULÁRIO ===== */
+    body {
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    .main-container {
+      flex: 1; /* ocupa o restante da tela abaixo da navbar */
+      display: flex;
+      justify-content: center; /* centraliza horizontal */
+      align-items: center;     /* centraliza vertical */
+    }
+  </style>
+</head>
+<body>
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <div class="navbar-container">
+
+      <!-- Esquerda -->
+      <div class="logo">🥕 Mandir</div>
+
+      <!-- Centro -->
+      <ul class="menu">
+        <li><a href="index.html">Início</a></li>
+        <li><a href="cardapio.html">Cardápio</a></li>
+        <li><a href="historia.html">História</a></li>
+        <li><a href="planos.html">Nossos Planos</a></li>
+      </ul>
+
+      <!-- Direita -->
+       <div class="navbar-buttons">
+  <button class="btn-cart" onclick="window.location.href='carrinho.html'">
+    🛒
+  </button>
+      <div class="navbar-buttons">
+        <button class="btn-login" onclick="window.location.href='login.html'">Login</button>
+        <button class="btn-signup" onclick="window.location.href='signup.html'">Signup</button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- CENTRALIZA FORMULÁRIO -->
+  <div class="main-container">
+    <div class="form-container">
+      <h2>Cadastro de Usuário</h2>
+      <form id="signupForm">
+        <label for="username">Usuário:</label>
+        <input type="text" id="username" name="username" required>
+
+        <label for="password">Senha:</label>
+        <input type="password" id="password" name="password" required>
+
+        <button type="submit">Cadastrar</button>
+      </form>
+      <p>Já tem uma conta? <a href="login.html">Faça login</a></p>
+    </div>
+  </div>
+
+  <script>
+    const form = document.getElementById('signupForm');
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const username = form.username.value;
+      const password = form.password.value;
+
+      try {
+        const res = await fetch('http://localhost:3000/users', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ username, password, role: 'admin' }) // por padrão admin
+        });
+        if(res.ok){
+          alert('Usuário cadastrado com sucesso!');
+          window.location.href = 'login.html';
+        } else {
+          const err = await res.text();
+          alert('Erro: ' + err);
+        }
+      } catch(err){
+        alert('Erro: ' + err);
+      }
+    });
+  </script>
+</body>
+</html>
